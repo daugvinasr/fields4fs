@@ -1,0 +1,143 @@
+---
+import DefaultLayout from "@/layout/default-layout.astro";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Button from "@/components/ui/button.astro";
+import Input from "@/components/ui/input.astro";
+import Label from "@/components/ui/label.astro";
+import AlertIcon from "@/icon/alert.astro";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Sun from "@/icon/sun.astro";
+---
+
+<script>
+  import { loadImageToBoolArray } from "@/lib/image.ts";
+  import { findShapes } from "@/lib/shapes.ts";
+  import { generateXML } from "@/lib/xml.ts";
+
+  const alert = document.getElementById("alert");
+  const alertDescription = document.getElementById("alert-description");
+  const fileInput = document.getElementById("file-input");
+  const button = document.getElementById("convert-button");
+
+  if (
+    fileInput &&
+    alert &&
+    alertDescription &&
+    button &&
+    button instanceof HTMLButtonElement &&
+    fileInput instanceof HTMLInputElement
+  ) {
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      alert.classList.add("hidden");
+      alertDescription.innerHTML = "";
+
+      if (!fileInput.files || fileInput.files.length === 0) {
+        alertDescription.innerHTML = "No file selected";
+        alert.classList.remove("hidden");
+        button.disabled = false;
+        return;
+      }
+
+      try {
+        const boolArray = await loadImageToBoolArray(fileInput.files[0]);
+        const shapes = findShapes(boolArray);
+        const xml = generateXML(shapes);
+
+        const blob = new Blob([xml], { type: "application/xml" });
+
+        const downloadLink = document.createElement("a");
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = "output.i3d";
+
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        URL.revokeObjectURL(downloadLink.href);
+      } catch (e) {
+        alertDescription.innerHTML = "Failed to convert. More info in console";
+        alert.classList.remove("hidden");
+        console.log(e);
+      }
+
+      button.disabled = false;
+    });
+  }
+</script>
+
+<DefaultLayout>
+  <div class="flex items-center justify-center">
+    <div class="flex w-[700px] flex-col gap-4 pt-40">
+      <Card>
+        <CardHeader>
+          <CardTitle>FS25 Field Generator</CardTitle>
+          <CardDescription
+            >Provide densityMap_ground.png and it will output .i3d file with
+            fields.</CardDescription
+          >
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div class="grid w-full items-center gap-4">
+              <div class="flex flex-col space-y-1.5">
+                <Label for="file-input">File picker</Label>
+                <Input type="file" id="file-input" accept="image/png" />
+              </div>
+            </div>
+          </form>
+        </CardContent>
+        <CardFooter class="flex justify-between">
+          <p class="text-sm text-muted-foreground">
+            Field Generator runs fully <span class="font-semibold">locally</span
+            > on your machine and is <a
+              class="font-semibold"
+              href="https://github.com/daugvinasr/fields4fs"
+              target="_blank">open source</a
+            >
+          </p>
+          <Button id="convert-button">Convert</Button>
+        </CardFooter>
+      </Card>
+
+      <Alert class="hidden" id="alert" variant="destructive">
+        <AlertIcon class="h-5 w-5 flex-none stroke-destructive" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription id="alert-description" />
+      </Alert>
+
+      <Alert>
+        <AlertIcon class="h-5 w-5 flex-none stroke-foreground" />
+        <AlertTitle>Important</AlertTitle>
+        <AlertDescription>
+          Make sure that densityMap_ground.png is the same size as dem.png
+          otherwise fields won't line up
+        </AlertDescription>
+      </Alert>
+
+      <Alert>
+        <Sun class="h-5 w-5 flex-none" />
+        <AlertTitle>Info</AlertTitle>
+        <AlertDescription>
+          You can convert densityMap_ground.gdm to .png using <span
+            class="font-bold"
+          >
+            GRLE Converter
+          </span>
+          from <a
+            class="font-bold"
+            href="https://gdn.giants-software.com/"
+            target="_blank">GDN</a
+          >
+        </AlertDescription>
+      </Alert>
+    </div>
+  </div>
+</DefaultLayout>
