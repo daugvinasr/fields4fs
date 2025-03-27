@@ -9,9 +9,9 @@ interface Props extends HTMLAttributes<"h5"> {
 const { class: className, ...props } = Astro.props;
 ---
 
-<h5
+<h2
   class={cn("mb-1 font-medium leading-none tracking-tight", className)}
   {...props}
 >
   <slot />
-</h5>
+</h2>

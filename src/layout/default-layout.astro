@@ -13,17 +13,34 @@ import { Image } from "astro:assets";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>fields4fs</title>
+    <meta
+      name="description"
+      content="Convert any densityMap_ground.png from FS25 to .i3d file with fields!"
+    />
   </head>
   <body class="bg-background min-h-screen font-sans antialiased">
     <header class="bg-background sticky top-0 z-40 w-full border-b shadow-xs">
       <div class="mx-auto flex h-14 w-full max-w-[1400px] items-center px-8">
-        <a href="/" class="mr-6 flex items-center space-x-2">
+        <a
+          aria-label="Landing Page Link"
+          href="/"
+          class="mr-6 flex items-center space-x-2"
+        >
           <Image src="/favicon.svg" width={24} height={24} alt="logo" />
           <span class="font-semibold">fields4fs</span>
 
           <div class="flex flex-1 items-center justify-end space-x-2">
-            <a href="https://github.com/daugvinasr/fields4fs" target="_blank">
-              <Button type="button" size="icon" variant="ghost">
+            <a
+              aria-label="Github Link"
+              href="https://github.com/daugvinasr/fields4fs"
+              target="_blank"
+            >
+              <Button
+                aria-label="Github Link"
+                type="button"
+                size="icon"
+                variant="ghost"
+              >
                 <Github class="fill-foreground h-5 w-5 flex-none" />
               </Button>
             </a>
