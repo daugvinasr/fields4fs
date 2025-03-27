@@ -75,7 +75,7 @@ import Sun from "@/icon/sun.astro";
 
 <DefaultLayout>
   <div class="flex items-center justify-center">
-    <div class="flex w-[700px] flex-col gap-4 pt-40">
+    <div class="flex w-[700px] flex-col gap-4">
       <Card>
         <CardHeader>
           <CardTitle>FS25 Field Generator</CardTitle>
@@ -95,7 +95,7 @@ import Sun from "@/icon/sun.astro";
           </form>
         </CardContent>
         <CardFooter class="flex justify-between">
-          <p class="text-sm text-muted-foreground">
+          <p class="text-muted-foreground text-sm">
             Field Generator runs fully <span class="font-semibold">locally</span
             > on your machine and is <a
               class="font-semibold"
@@ -108,13 +108,13 @@ import Sun from "@/icon/sun.astro";
       </Card>
 
       <Alert class="hidden" id="alert" variant="destructive">
-        <AlertIcon class="h-5 w-5 flex-none stroke-destructive" />
+        <AlertIcon class="stroke-destructive h-5 w-5 flex-none" />
         <AlertTitle>Error</AlertTitle>
         <AlertDescription id="alert-description" />
       </Alert>
 
       <Alert>
-        <AlertIcon class="h-5 w-5 flex-none stroke-foreground" />
+        <AlertIcon class="stroke-foreground h-5 w-5 flex-none" />
         <AlertTitle>Important</AlertTitle>
         <AlertDescription>
           Make sure that densityMap_ground.png is the same size as dem.png
