@@ -74,7 +74,7 @@ export function generateXML(shapes: Shape[]): string {
     const transformedCenterZ = shapeCenterY - centerY;
 
     const fieldNum = i + 1;
-    const fieldName = `field${String(fieldNum).padStart(2, '0')}`;
+    const fieldName = `field${String(fieldNum).padStart(2, "0")}`;
     const fieldNodeId = nextNodeId;
     nextNodeId++;
 

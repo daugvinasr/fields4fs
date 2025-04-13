@@ -7,6 +7,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  site: 'https://fields4fs.zod.nu',
+  site: "https://fields4fs.zod.nu",
   integrations: [sitemap()],
 });
